@@ -14,6 +14,9 @@ const searchInput = document.getElementById('search-input');
 const modal = document.getElementById('issue-modal');
 const modalBody = document.getElementById('modal-body');
 
+
+
+
 // Login 
 loginForm.addEventListener('submit', (e) => {
     e.preventDefault();
@@ -23,6 +26,9 @@ loginForm.addEventListener('submit', (e) => {
         fetchIssues();
     } else { alert("Invalid Credentials!"); }
 });
+
+
+
 
 
 // Fetch Data
@@ -35,6 +41,9 @@ async function fetchIssues() {
         renderIssues(allIssues);
     } catch (err) { console.error(err); } finally { showLoader(false); }
 }
+
+
+
 
 // Render Cards
 function renderIssues(issues) {
@@ -69,6 +78,7 @@ function renderIssues(issues) {
         issuesGrid.appendChild(card);
     });
 }
+
 
 
 
@@ -141,6 +151,8 @@ searchInput.addEventListener('keypress', async (e) => {
     }
 });
 
+
+
 tabBtns.forEach(btn => {
     btn.addEventListener('click', () => {
         tabBtns.forEach(b => b.classList.remove('active'));
@@ -149,18 +161,4 @@ tabBtns.forEach(btn => {
         renderIssues(filter === 'all' ? allIssues : allIssues.filter(i => i.status === filter));
     });
 });
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 

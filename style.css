@@ -23,19 +23,15 @@
 }
 
 
-
 body { 
     background-color: var(--bg-color); 
     color: var(--text-dark); 
 }
 
 
-
-
 .hidden { 
     display: none !important; 
 }
-
 
 
 /* Summary part */
@@ -266,7 +262,7 @@ body {
 
 
 
-/* Issues Grid UI */
+/* Issues */
 .issues-grid { 
     display: grid; 
     grid-template-columns: repeat(4, 1fr); 
@@ -314,8 +310,7 @@ body {
 
 
 
-
-/* Badges UI */
+/* Badges */
 .priority-badge { 
     font-size: 11px; 
     font-weight: 700; 
@@ -447,7 +442,6 @@ body {
 }
 
 
-
 .modal-labels-row { 
     display: flex; 
     gap: 10px; 
@@ -532,6 +526,7 @@ body {
 
 
 
+
 @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
 
 
@@ -541,6 +536,7 @@ body {
 @media (max-width: 1200px) { 
     .issues-grid { grid-template-columns: repeat(2, 1fr); } 
 }
+
 
 
 @media (max-width: 576px) { 
