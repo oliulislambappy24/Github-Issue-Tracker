@@ -72,6 +72,85 @@ function renderIssues(issues) {
 
 
 
+// Modal  
+async function showModal(id) {
+    showLoader(true);
+    try {
+        const res = await fetch(`https://phi-lab-server.vercel.app/api/v1/lab/issue/${id}`);
+        const json = await res.json();
+        const issue = json.data;
+        
+        const date = new Date(issue.createdAt).toLocaleDateString('en-GB');
+
+        const labelsHTML = issue.labels.map((label, index) => {
+            let icon = label.toLowerCase().includes('bug') ? 'fa-bug' : 'fa-hand-holding-heart';
+            const styleClass = index === 1 ? 'label-medium-style' : '';
+            return `<span class="label-badge ${styleClass}"><i class="fas ${icon}"></i> ${label.toUpperCase()}</span>`;
+        }).join('');
+
+        modalBody.innerHTML = `
+            <h2 class="modal-title">${issue.title}</h2>
+            
+            <div class="modal-meta-info">
+                <span class="status-pill">${issue.status.charAt(0).toUpperCase() + issue.status.slice(1)}</span>
+                <span> • Opened by ${issue.author} • ${date}</span>
+            </div>
+
+            <div class="modal-labels-row">
+                ${labelsHTML}
+            </div>
+
+            <p class="modal-description">${issue.description}</p>
+
+            <div class="modal-info-grid">
+                <div class="info-item">
+                    <label>Assignee:</label>
+                    <span>${issue.author}</span>
+                </div>
+                <div class="info-item">
+                    <label>Priority:</label>
+                    <span class="priority-pill-high">${issue.priority.toUpperCase()}</span>
+                </div>
+            </div>
+
+            <div class="modal-action-row">
+                <button class="btn-close-large" onclick="closeModalWindow()">Close</button>
+            </div>
+        `;
+        modal.classList.remove('hidden');
+    } finally { showLoader(false); }
+}
+
+function closeModalWindow() { modal.classList.add('hidden'); }
+function showLoader(s) { s ? loader.classList.remove('hidden') : loader.classList.add('hidden'); }
+
+
+
+
+// Search 
+searchInput.addEventListener('keypress', async (e) => {
+    if (e.key === 'Enter') {
+        const query = searchInput.value.trim();
+        if (!query) return fetchIssues();
+        showLoader(true);
+        try {
+            const res = await fetch(`${SEARCH_URL}${query}`);
+            const json = await res.json();
+            renderIssues(json.data);
+        } finally { showLoader(false); }
+    }
+});
+
+tabBtns.forEach(btn => {
+    btn.addEventListener('click', () => {
+        tabBtns.forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        const filter = btn.dataset.filter;
+        renderIssues(filter === 'all' ? allIssues : allIssues.filter(i => i.status === filter));
+    });
+});
+
+
 
 
 
