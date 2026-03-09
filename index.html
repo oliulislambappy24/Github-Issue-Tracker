@@ -43,5 +43,58 @@
         </div>
     </div>
 
+    
+    <!-- Main Page -->
+    <div id="main-page" class="page hidden">
+        <nav class="navbar">
+            <div class="nav-left">
+                <i class="fab fa-github"></i>
+                <span class="brand">GitHub Issues Tracker</span>
+            </div>
+            <div class="nav-right">
+                <div class="search-container">
+                    <i class="fas fa-search search-icon"></i>
+                    <input type="text" id="search-input" placeholder="Search issues...">
+                </div>
+                <button class="btn-new-issue">+ New Issue</button>
+            </div>
+        </nav>
+
+        <main class="content">
+            <div class="tabs-container">
+                <div class="tabs">
+                    <button class="tab-btn active" data-filter="all">All</button>
+                    <button class="tab-btn" data-filter="open">Open</button>
+                    <button class="tab-btn" data-filter="closed">Closed</button>
+                </div>
+            </div>
+
+            <div class="issue-summary">
+                <div class="summary-left">
+                    <div class="summary-icon-circle">
+                        <img src="./assets/Aperture.png" alt="" class="summary-img">
+                    </div>
+                    <div>
+                        <h3 id="issue-count">0 Issues</h3>
+                        <p>Track and manage your project issues</p>
+                    </div>
+                </div>
+                <div class="summary-right">
+                    <span><span class="dot green"></span> Open</span>
+                    <span><span class="dot purple"></span> Closed</span>
+                </div>
+            </div>
+
+            <div id="loader" class="loader hidden"></div>
+
+            <div id="issues-grid" class="issues-grid">
+            </div>
+        </main>
+    </div>
+
+
+
+    
+
 </body>
 </html>
