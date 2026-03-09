@@ -25,7 +25,50 @@ loginForm.addEventListener('submit', (e) => {
 });
 
 
+// Fetch Data
+async function fetchIssues() {
+    showLoader(true);
+    try {
+        const res = await fetch(API_URL);
+        const json = await res.json();
+        allIssues = json.data;
+        renderIssues(allIssues);
+    } catch (err) { console.error(err); } finally { showLoader(false); }
+}
 
+// Render Cards
+function renderIssues(issues) {
+    issuesGrid.innerHTML = "";
+    issueCount.innerText = `${issues.length} Issues`;
+
+    issues.forEach(issue => {
+        const borderClass = issue.status === 'open' ? 'border-open' : 'border-closed';
+        const priorityClass = `priority-${issue.priority.toLowerCase()}`;
+        const statusImg = issue.status === 'open' ? './assets/Open-Status.png' : './assets/Closed- Status .png';
+
+        const labelsHTML = issue.labels.map((label, index) => {
+            let icon = label.toLowerCase().includes('bug') ? '<i class="fas fa-bug"></i>' : '<i class="fas fa-life-ring"></i>';
+            const extraClass = index === 1 ? 'label-medium-style' : '';
+            return `<span class="label-badge ${extraClass}">${icon} ${label.toUpperCase()}</span>`;
+        }).join('');
+
+        const card = document.createElement('div');
+        card.className = `issue-card ${borderClass}`;
+        card.innerHTML = `
+            <div class="card-body" onclick="showModal(${issue.id})">
+                <div class="card-header-top">
+                    <img src="${statusImg}" class="status-img-icon">
+                    <span class="priority-badge ${priorityClass}">${issue.priority}</span>
+                </div>
+                <h4>${issue.title}</h4>
+                <p>${issue.description.substring(0, 80)}...</p>
+                <div class="labels-container">${labelsHTML}</div>
+            </div>
+            <div class="card-footer">#${issue.id} by ${issue.author} <br> ${new Date(issue.createdAt).toLocaleDateString()}</div>
+        `;
+        issuesGrid.appendChild(card);
+    });
+}
 
 
 
